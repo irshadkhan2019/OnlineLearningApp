@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,TouchableOpacity,Image,Animated
@@ -47,7 +47,7 @@ const TabIndicator=({measureLayout,scrollX})=>{
 
 }
  
-const Tabs=(({scrollX})=>{
+const Tabs=(({scrollX,onBottomTabPress})=>{
     const containerRef=useRef()
     const [measureLayout,setMeasureLayout]=useState([])
     
@@ -93,6 +93,7 @@ const Tabs=(({scrollX})=>{
                             alignItems:"center",
                             justifyContent:"center"
                         }}
+                        onPress={()=>onBottomTabPress(index)}
                     >
                         {/* Image */}
                         <Image source={item.icon}
@@ -125,6 +126,14 @@ const MainLayout = () => {
     const flatListRef=useRef()
     const scrollX=useRef(new Animated.Value(0)).current
 
+    // scroll flatlist manually when tabs item pressed instead of scrolling
+    const onBottomTabPress=useCallback(bottomTabIndex=>{
+        flatListRef?.current?.scrollToOffset({
+            //navigates to other screen
+            offset:bottomTabIndex*SIZES.width
+        })
+    })
+
     function renderContent(){
         return(
             <View
@@ -137,10 +146,11 @@ const MainLayout = () => {
                 ref={flatListRef}
                 horizontal
                 pagingEnabled
+                scrollEnabled={false}
                 snapToAlignment={"center"}
                 snapToInterval={SIZES.width}
                 decelerationRate={"fast"}
-                showsHorizontalScrollIndicator={true}
+                // showsHorizontalScrollIndicator={true}
                 data={constants.bottom_tabs}
                 keyExtractor={item =>`Main-${item.id}`}
                 onScroll={
@@ -194,6 +204,7 @@ const MainLayout = () => {
                         >
                         <Tabs 
                             scrollX={scrollX}
+                            onBottomTabPress={onBottomTabPress}
                         />
                     </View>
                 </Shadow>
