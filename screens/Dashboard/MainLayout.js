@@ -1,4 +1,4 @@
-import React, { createRef, useRef } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,TouchableOpacity,Image,Animated
@@ -12,7 +12,114 @@ import { FlatList } from 'react-native';
 const bottom_tabs=constants.bottom_tabs.map((bottom_tab)=>({
     ...bottom_tab,ref:createRef()
 }))
+
+const TabIndicator=({measureLayout,scrollX})=>{
+    // console.log(measureLayout,":::",scrollX)
+    //for animation
+    const inputRange=bottom_tabs.map((_,i)=>i*SIZES.width)
+    // console.log("inputRange",inputRange)
+    // console.log("ORange",measureLayout.map((measure)=>measure.x))
+
+    const TabIndicatorWidth=scrollX.interpolate({
+        inputRange,
+        outputRange:measureLayout.map((measure)=>measure.width)
+    })
+    const translateX=scrollX.interpolate({
+        inputRange,
+        outputRange:measureLayout.map((measure)=>measure.x)
+    })
+
+    return(
+     <Animated.View
+        style={{
+            position:"absolute",
+            left:0,
+            height:"100%",
+            width:TabIndicatorWidth,
+            borderRadius:SIZES.radius,
+            backgroundColor:COLORS.primary,
+            transform:[{
+                translateX
+            }]
+        }}
+    />
+    )
+
+}
  
+const Tabs=(({scrollX})=>{
+    const containerRef=useRef()
+    const [measureLayout,setMeasureLayout]=useState([])
+    
+    useEffect(()=>{
+        let ml=[]
+      
+        bottom_tabs.forEach(bottom_tab =>{
+            bottom_tab?.ref?.current?.measureLayout(
+                containerRef.current,
+                (x,y,width,height)=>{
+                    ml.push({
+                        x,y,width,height
+                    })
+                    
+                    if(ml.length === bottom_tabs.length){
+                        setMeasureLayout(ml)
+                    }
+                }
+            )
+        })
+    },[containerRef.current])
+
+    return (
+        <View
+            ref={containerRef}
+            style={{
+                flex:1,
+                flexDirection:"row",
+              
+            }}
+        >
+            {/* Tabs indicator */}
+            {measureLayout.length >0 && <TabIndicator measureLayout={measureLayout} scrollX={scrollX} />}
+            {/* Tabs */}
+            {bottom_tabs.map((item,index)=>{
+                return (
+                    <TouchableOpacity
+                        key={`BottomTab-${index}`}
+                        ref={item.ref}
+                        style={{
+                            flex:1,
+                            paddingHorizontal:15,
+                            alignItems:"center",
+                            justifyContent:"center"
+                        }}
+                    >
+                        {/* Image */}
+                        <Image source={item.icon}
+                               resizeMode='contain'
+                               style={{
+                                width:25,
+                                height:25,
+                               }}
+                        />
+
+                        {/* Text */}
+                        <Text style={{
+                            marginTop:3,
+                            color:COLORS.white,
+                            ...FONTS.h3
+                        }}>
+                            {item.label}
+                        </Text>
+
+                    </TouchableOpacity>
+                )
+            })}
+
+        </View>
+    )
+})
+
 
 const MainLayout = () => {
     const flatListRef=useRef()
@@ -37,6 +144,7 @@ const MainLayout = () => {
                 data={constants.bottom_tabs}
                 keyExtractor={item =>`Main-${item.id}`}
                 onScroll={
+                    // change scrollX value when scrolled via UI thread
                     Animated.event([
                         {nativeEvent:{contentOffset:{x:scrollX}}}
                     ],{
@@ -84,9 +192,9 @@ const MainLayout = () => {
                     <View
                         style={{ flex:1,borderRadius:SIZES.radius,backgroundColor:COLORS.primary3}}
                         >
-                        {/* <Tabs 
+                        <Tabs 
                             scrollX={scrollX}
-                        /> */}
+                        />
                     </View>
                 </Shadow>
                     
