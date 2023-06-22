@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { IconButton } from '../../components';
+import { IconButton, TextButton } from '../../components';
 import {COLORS,SIZES,FONTS,constants,icons,images,dummyData} from "../../constants"
+import { color } from 'react-native-reanimated';
 
 const Home = () => {
 
@@ -47,6 +48,54 @@ const Home = () => {
         )
     }
 
+    function renderStartLearning(){
+        return (
+        <ImageBackground
+            source={images.featured_bg_image}
+            style={{
+                alignItems:'flex-start',
+                marginTop:SIZES.padding,
+                marginHorizontal:SIZES.padding,
+                padding:15
+            }}
+            imageStyle={{
+                borderRadius:SIZES.radius
+            }}
+        >
+            {/* Info */}
+            <View>
+                <Text style={{color:COLORS.white, ...FONTS.body2}}>HOW TO</Text>
+                <Text style={{color:COLORS.white, ...FONTS.h2}}>Make your brain more visible with our checklist</Text>
+                <Text style={{color:COLORS.white, ...FONTS.body4,marginTop:SIZES.radius}}>By Izuku Midoria</Text>
+            </View>
+            {/* Image */}
+            <Image
+                source={images.start_learning}
+                style={{
+                    width:"100%",
+                    height:110,
+                    marginTop:SIZES.padding
+                }}
+            />
+
+            {/* btn */}
+            <TextButton 
+                label={`Start Learning`}
+                contentContainerStyle={{
+                    height:40,
+                    paddingHorizontal:SIZES.padding,
+                    borderRadius:20,
+                    backgroundColor:COLORS.white
+                }}
+                labelStyle={{
+                    color:COLORS.black
+                }}
+                onPress={()=>{console.log("start learning")}}
+            />
+
+        </ImageBackground>)
+    }
+
     return (
         <View 
             style={{
@@ -57,7 +106,19 @@ const Home = () => {
             {/* Header */}
             {renderHeader()}
 
-            {/* Content */}
+            {/* <------Content -----> */}
+            <ScrollView
+                contentContainerStyle={{
+                    paddingBottom:150,
+              
+                }}
+                showsVerticalScrollIndicator={false}
+                
+            >
+                {/* Start Learning  */}
+                {renderStartLearning()}
+
+            </ScrollView>
         </View>
     )
 }
