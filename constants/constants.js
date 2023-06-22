@@ -89,6 +89,7 @@ const bottom_tabs = [
         id: 0,
         label: screens.home,
         icon: require("../assets/icons/home.png")
+        // inject ref later
     },
     {
         id: 1,

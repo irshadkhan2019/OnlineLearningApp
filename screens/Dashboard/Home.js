@@ -3,10 +3,11 @@ import {
     View,
     Text
 } from 'react-native';
+import { COLORS } from '../../constants';
 
 const Home = () => {
     return (
-        <View>
+        <View >
             <Text>Home</Text>
         </View>
     )
