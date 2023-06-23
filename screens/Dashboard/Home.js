@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { IconButton, TextButton } from '../../components';
+import { IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
 import {COLORS,SIZES,FONTS,constants,icons,images,dummyData} from "../../constants"
 import { color } from 'react-native-reanimated';
+
 
 const Home = () => {
 
@@ -96,6 +97,32 @@ const Home = () => {
         </ImageBackground>)
     }
 
+    function renderCourses(){
+        return (
+            <FlatList
+                horizontal
+                data={dummyData.courses_list_1}
+                key={`Courses`}
+                keyExtractor={item=>`Courses-${item.id}`}
+                showsHorizontalScrollIndicator
+                contentContainerStyle={{
+                    marginTop:SIZES.padding
+                }}
+                renderItem={({item,index})=>(
+                   <VerticalCourseCard 
+                    course={item} 
+                    containerStyle={{
+                    marginLeft: index==0 ?SIZES.padding:SIZES.radius,
+                    marginRight:index==dummyData.courses_list_1.length-1?SIZES.padding:0
+                   }}/> 
+                )}
+
+            />
+
+          
+        )
+    }
+
     return (
         <View 
             style={{
@@ -117,6 +144,14 @@ const Home = () => {
             >
                 {/* Start Learning  */}
                 {renderStartLearning()}
+
+                {/* Courses */}
+                {renderCourses()}
+
+                {/* Line divider */}
+                <LineDivider lineStyle={{
+                    marginVertical:SIZES.padding,
+                }}/>
 
             </ScrollView>
         </View>
