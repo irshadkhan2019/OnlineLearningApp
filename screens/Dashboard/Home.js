@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { CategoryCard, IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
+import { CategoryCard, HorizontalCourseCard, IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
 import {COLORS,SIZES,FONTS,constants,icons,images,dummyData} from "../../constants"
 import { color } from 'react-native-reanimated';
 
@@ -165,7 +165,9 @@ const Home = () => {
     function renderCategories(){
         return (
             <Section 
-                containerStyle={{}}
+                containerStyle={{
+                
+                }}
                 title={"Categories"}
                 onPress={()=>console.log("See all")}
 
@@ -188,6 +190,47 @@ const Home = () => {
                             }}
                         />
                         
+                    )}
+
+                />
+                    
+               
+             </Section>
+        )
+    }
+    function renderPopularCourses(){
+        return (
+            <Section 
+                containerStyle={{
+                    marginTop:30,
+                }}
+                title={"Popular Courses"}
+                onPress={()=>console.log("See all")}
+
+             >
+                <FlatList
+                    data={dummyData?.courses_list_2}
+                    key={"PopularCourses"}
+                    keyExtractor={item=>`PopularCourses-${item.id}`}
+                    // scrollEnabled={false}
+                    showsVerticalScrollIndicator
+                    contentContainerStyle={{
+                        marginTop:SIZES.radius,
+                        paddingHorizontal:SIZES.padding
+                    }}
+                    renderItem={({item,index})=>(
+                        <HorizontalCourseCard course={item} 
+                          containerStyle={{
+                            marginVertical:SIZES.padding,
+                            marginTop:index==0?SIZES.radius:SIZES.padding
+                          }}/>
+                    )}
+                    ItemSeparatorComponent={()=>(
+                        <LineDivider
+                            lineStyle={{
+                                backgroundColor:COLORS.gray20
+                            }}
+                        />
                     )}
 
                 />
@@ -230,8 +273,8 @@ const Home = () => {
                 {/* Categories */}
                 {renderCategories()}
             
-
                 {/* Popular courses */}
+                {renderPopularCourses()}
 
             </ScrollView>
         </View>
