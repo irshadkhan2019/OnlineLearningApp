@@ -1,3 +1,4 @@
+import CategoryCard from "./CategoryCard";
 import IconButton from "./IconButton";
 import IconLabel from "./IconLabel";
 import LineDivider from "./LineDivider";
@@ -11,6 +12,7 @@ export {
     TextButton,
     VerticalCourseCard,
     IconLabel,
-    LineDivider
+    LineDivider,
+    CategoryCard
     
 }

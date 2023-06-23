@@ -10,10 +10,49 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
+import { CategoryCard, IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
 import {COLORS,SIZES,FONTS,constants,icons,images,dummyData} from "../../constants"
 import { color } from 'react-native-reanimated';
 
+const Section=({containerStyle,title,onPress,children})=>{
+    return (
+        <View
+            style={{
+                ...containerStyle
+            }}
+        >
+            {/* heading ->Title,seeall*/}
+            <View
+                style={{
+                    flexDirection:'row',
+                    paddingHorizontal:SIZES.padding
+                }}
+            >
+                <Text
+                    style={{
+                        flex:1,
+                        ...FONTS.h2,
+                    }}
+                >
+                    {title}
+
+                </Text>
+                <TextButton 
+                contentContainerStyle={{
+                    width:80,
+                    borderRadius:30,
+                    backgroundColor:COLORS.primary,
+                }}
+                    label={"See All"}
+                    onPress={onPress}
+                />
+
+            </View>
+            {children}
+        </View>
+    )
+
+}
 
 const Home = () => {
 
@@ -123,6 +162,41 @@ const Home = () => {
         )
     }
 
+    function renderCategories(){
+        return (
+            <Section 
+                containerStyle={{}}
+                title={"Categories"}
+                onPress={()=>console.log("See all")}
+
+             >
+                <FlatList
+                    horizontal
+                    data={dummyData.categories}
+                    key={"Categories"}
+                    keyExtractor={item=>`Categories-${item.id}`}
+                    showsHorizontalScrollIndicator
+                    contentContainerStyle={{
+                        marginTop:SIZES.radius
+                    }}
+                    renderItem={({item,index})=>(
+                        <CategoryCard 
+                            category={item}
+                            containerStyle={{
+                                marginLeft:index==0 ?SIZES.padding:SIZES.base,
+                                marginRight:index==dummyData.categories.length-1?SIZES.padding:0
+                            }}
+                        />
+                        
+                    )}
+
+                />
+                    
+               
+             </Section>
+        )
+    }
+
     return (
         <View 
             style={{
@@ -152,6 +226,12 @@ const Home = () => {
                 <LineDivider lineStyle={{
                     marginVertical:SIZES.padding,
                 }}/>
+
+                {/* Categories */}
+                {renderCategories()}
+            
+
+                {/* Popular courses */}
 
             </ScrollView>
         </View>
