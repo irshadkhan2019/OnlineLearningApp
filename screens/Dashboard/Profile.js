@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 
 import {
-    IconButton, TextButton,LineDivider, ProgressBar, ProfileValue
+    IconButton, TextButton,LineDivider, ProgressBar, ProfileValue, ProfileRadioButton
 } from "../../components"
 
 import { COLORS,FONTS,SIZES,icons,images } from '../../constants';
 
 const Profile = () => {
+    const [newCourseNotification,setNewCourseNotification]=useState(false)
+    const [studyReminder,setStudyReminder]=useState(false)
 
     function renderHeader(){
         return (
@@ -192,11 +194,70 @@ const Profile = () => {
                     label={"Name"}
                     value={"Izuku Midoria"}
                 />
+
+                <LineDivider/>
+
+                <ProfileValue 
+                    icon={icons.email}
+                    label={"Email"}
+                    value={"Khanirshad2019@gmail.com"}
+                />
                 
+                <LineDivider/>
+
+                <ProfileValue 
+                    icon={icons.password}
+                    label={"Password"}
+                    value={"Updated 2 weeks ago"}
+                />
+
+                <LineDivider/>
+
+                <ProfileValue 
+                    icon={icons.call}
+                    label={"Contact Number"}
+                    value={"+91982836862"}
+                />
+
+
             </View>
         )
     }
 
+    function renderProfileSection2(){
+        return (
+            <View
+                style={styles.profileSectionContainer}
+            >
+                <ProfileValue 
+                    icon={icons.star_1}
+                    value={"Pages"}
+                />
+
+                <LineDivider/>
+
+                <ProfileRadioButton 
+                    icon={icons.new_icon}
+                    label={"New Course Notifications"}
+                    isSelected={newCourseNotification}
+                    onPress={()=>setNewCourseNotification(!newCourseNotification)}
+                    />
+                <LineDivider/>
+
+                <ProfileRadioButton 
+                    icon={icons.reminder}
+                    label={"Study Reminder"}
+                    isSelected={studyReminder}
+                    onPress={()=>setStudyReminder(!studyReminder)}
+                    />
+                <LineDivider/>
+               
+
+            </View>
+        )
+    }
+
+    
     return (
         <View
             style={{
@@ -211,7 +272,7 @@ const Profile = () => {
             <ScrollView
                 contentContainerStyle={{
                     paddingHorizontal:SIZES.padding,
-                    // paddingBottom:150
+                    paddingBottom:150
                 }}
             >
                 {/* Profile  CArd */}
@@ -220,6 +281,9 @@ const Profile = () => {
                 {/* Other profile Settings  */}
                 {/* Profile Sectino 1 */}
                 {renderProfileSection1()}
+
+                {/* Profile Sectino 2 */}
+                {renderProfileSection2()}
             </ScrollView>
 
         </View>
