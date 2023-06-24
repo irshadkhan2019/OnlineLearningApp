@@ -3,6 +3,7 @@ import HorizontalCourseCard from "./HorizontalCourseCard";
 import IconButton from "./IconButton";
 import IconLabel from "./IconLabel";
 import LineDivider from "./LineDivider";
+import ProgressBar from "./ProgressBar";
 import TextButton from "./TextButton";
 import VerticalCourseCard from "./VerticalCourseCard";
 
@@ -15,6 +16,7 @@ export {
     IconLabel,
     LineDivider,
     CategoryCard,
-    HorizontalCourseCard
+    HorizontalCourseCard,
+    ProgressBar
     
 }
