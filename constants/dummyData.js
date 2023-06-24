@@ -28,7 +28,18 @@ const categories = [
         id: 5,
         title: "Animation",
         thumbnail: require("../assets/images/bg_6.png")
-    }
+    },
+    {
+        id: 6,
+        title: "Coding",
+        thumbnail: require("../assets/images/bg_6.png")
+    },
+    {
+        id: 7,
+        title: "Gaming",
+        thumbnail: require("../assets/images/bg_1.png")
+    },
+    
 ]
 
 const courses_list_1 = [

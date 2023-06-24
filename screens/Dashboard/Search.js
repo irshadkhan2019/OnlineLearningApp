@@ -15,6 +15,12 @@ import Animated, { Extrapolate ,interpolate,useAnimatedScrollHandler,useAnimated
 const Search = () => {
     const scrollViewRef=useRef()
 
+    const scrollY=useSharedValue(0)
+    const onScroll=useAnimatedScrollHandler(event=>{
+        // console.log(event.contentOffset.y)
+        scrollY.value=event.contentOffset.y
+    })
+
     function renderTopSearches(){
         return (
             <View
@@ -113,6 +119,73 @@ const Search = () => {
         )
     }
 
+    function renderSearchBar(){
+        const inputRange=[0,55];
+
+        const searchBarAnimatedStyle=useAnimatedStyle(()=>{
+            return {
+               //make ht and opacity of search bar 0 ,when scrolled y is 55
+               height:interpolate(scrollY.value,inputRange,
+                [55,0],Extrapolate.CLAMP),
+               opacity:interpolate(scrollY.value,inputRange,
+                [1,0],Extrapolate.CLAMP)
+
+            }
+        })
+
+        return (
+            <Animated.View
+                style={[{
+                    position:"absolute",
+                    top:50,
+                    left:0,
+                    right:0,
+                    paddingHorizontal:SIZES.padding,
+                    height:50
+                },
+                searchBarAnimatedStyle
+            ]}
+            >
+                <Shadow>
+                    <View
+                        style={{
+                            flex:1,
+                            flexDirection:"row",
+                            alignItems:"center",
+                            width:SIZES.width-(SIZES.padding*2),
+                            paddingHorizontal:SIZES.radius,
+                            borderRadius:SIZES.radius,
+                            backgroundColor:COLORS.white
+
+                        }}
+                    >
+                      {/*Search Icon  */}
+                      <Image 
+                        source={icons.search}
+                        style={{
+                            width:25,
+                            height:25,
+                            tintColor:COLORS.gray40
+                        }}
+                      />
+
+                      {/* text input */}
+                      <TextInput 
+                        style={{
+                            flex:1,
+                            marginLeft:SIZES.base,
+                            ...FONTS.h4
+                        }}
+                        value=''
+                        placeholder='Search for Topics,courses & Educators'
+                        placeholderTextColor={COLORS.gray}
+                      />
+                    </View>
+                </Shadow>
+            </Animated.View>
+        )
+    }
+
     return (
         <View
             style={{
@@ -124,13 +197,24 @@ const Search = () => {
                 ref={scrollViewRef}
                 contentContainerStyle={{
                     marginTop:100,
-                    // paddingBottom:300
+                    paddingBottom:300
                 }}
-                showsVerticalScrollIndicator
+                showsVerticalScrollIndicator={false}
                 scrollEventThrottle={16}
                 keyboardDismissMode={"on-drag"}
-                // onScroll={}
-                // onScrollEndDrag={}
+                onScroll={onScroll}
+                onScrollEndDrag={(event)=>{
+                    // console.log(event.nativeEvent.contentOffset)
+                    if(event.nativeEvent.contentOffset.y>10 && 
+                       event.nativeEvent.contentOffset.y<50
+                        ){
+                            scrollViewRef.current?.scrollTo({
+                                x:0,
+                                y:60,
+                                animated:true
+                            })
+                        }
+                }}
             >
                 {/*top searches  */}
                 {renderTopSearches()}
@@ -139,6 +223,9 @@ const Search = () => {
                 {renderBrowseCategories()}
 
             </Animated.ScrollView>
+
+            {/* Search Bar */}
+            {renderSearchBar()}
         </View>
     )
 }
