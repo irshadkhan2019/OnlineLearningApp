@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import {
-    IconButton, TextButton,LineDivider, ProgressBar
+    IconButton, TextButton,LineDivider, ProgressBar, ProfileValue
 } from "../../components"
 
 import { COLORS,FONTS,SIZES,icons,images } from '../../constants';
@@ -182,6 +182,21 @@ const Profile = () => {
          )
     }
 
+    function renderProfileSection1(){
+        return (
+            <View
+                style={styles.profileSectionContainer}
+            >
+                <ProfileValue 
+                    icon={icons.profile}
+                    label={"Name"}
+                    value={"Izuku Midoria"}
+                />
+                
+            </View>
+        )
+    }
+
     return (
         <View
             style={{
@@ -195,7 +210,7 @@ const Profile = () => {
             {/* scroll view */}
             <ScrollView
                 contentContainerStyle={{
-                    // paddingHorizontal:SIZES.padding,
+                    paddingHorizontal:SIZES.padding,
                     // paddingBottom:150
                 }}
             >
@@ -203,10 +218,23 @@ const Profile = () => {
                 {renderProfileCard()}
 
                 {/* Other profile Settings  */}
+                {/* Profile Sectino 1 */}
+                {renderProfileSection1()}
             </ScrollView>
 
         </View>
     )
 }
+
+const styles=StyleSheet.create({
+    profileSectionContainer:{
+       marginTop:SIZES.padding,
+       paddingHorizontal :SIZES.padding,
+       borderWidth:1,
+       borderRadius:SIZES.radius,
+       borderColor:COLORS.gray20,
+    //    backgroundColor:COLORS.gray50
+    }
+})
 
 export default Profile;
