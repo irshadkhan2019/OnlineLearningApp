@@ -143,7 +143,7 @@ const Home = () => {
                 data={dummyData.courses_list_1}
                 key={`Courses`}
                 keyExtractor={item=>`Courses-${item.id}`}
-                showsHorizontalScrollIndicator
+                // showsHorizontalScrollIndicator
                 contentContainerStyle={{
                     marginTop:SIZES.padding
                 }}
@@ -177,7 +177,7 @@ const Home = () => {
                     data={dummyData.categories}
                     key={"Categories"}
                     keyExtractor={item=>`Categories-${item.id}`}
-                    showsHorizontalScrollIndicator
+                    // showsHorizontalScrollIndicator
                     contentContainerStyle={{
                         marginTop:SIZES.radius
                     }}
@@ -213,7 +213,7 @@ const Home = () => {
                     key={"PopularCourses"}
                     keyExtractor={item=>`PopularCourses-${item.id}`}
                     // scrollEnabled={false}
-                    showsVerticalScrollIndicator
+                    // showsVerticalScrollIndicator
                     contentContainerStyle={{
                         marginTop:SIZES.radius,
                         paddingHorizontal:SIZES.padding

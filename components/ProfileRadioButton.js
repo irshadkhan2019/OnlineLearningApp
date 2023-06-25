@@ -1,8 +1,10 @@
 import { View, Text,Image,TouchableOpacity,Animated } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { COLORS,FONTS,SIZES} from '../constants'
+import { useSelector } from 'react-redux'
 
 const ProfileRadioButton = ({icon,label,isSelected,onPress}) => {
+  const {appTheme}=useSelector((state)=>state.theme)
   const radioAnimated=useRef(new Animated.Value(0)).current;
 
   const circleColorAnimated=radioAnimated.interpolate({
@@ -48,7 +50,7 @@ const ProfileRadioButton = ({icon,label,isSelected,onPress}) => {
             alignItems:"center",
             justifyContent:"center",
             borderRadius:20,
-            backgroundColor:COLORS.additionalColor11
+            backgroundColor:appTheme?.backgroundColor3
         }}
       >
         <Image 
@@ -70,7 +72,7 @@ const ProfileRadioButton = ({icon,label,isSelected,onPress}) => {
         }}
        >
         <Text 
-            style={{...FONTS.h3}}
+            style={{...FONTS.h3,color:appTheme?.textColor}}
         >
            {label} 
         </Text>
@@ -104,7 +106,7 @@ const ProfileRadioButton = ({icon,label,isSelected,onPress}) => {
                   left:radioAnimated,
                   width:25,
                   height:25,
-                  backgroundColor:COLORS.white,
+                  backgroundColor:appTheme?.backgroundColor1,
                   borderColor:circleColorAnimated,
                   borderRadius:15,
                   borderWidth:4

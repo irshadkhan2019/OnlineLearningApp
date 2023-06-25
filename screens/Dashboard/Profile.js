@@ -13,12 +13,29 @@ import {
     IconButton, TextButton,LineDivider, ProgressBar, ProfileValue, ProfileRadioButton
 } from "../../components"
 
-import { COLORS,FONTS,SIZES,icons,images } from '../../constants';
+import { COLORS,FONTS,SIZES,icons,images,lightTheme,darkTheme } from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleTheme } from '../../redux-toolkit/reducers/theme.reducer';
+
 
 const Profile = () => {
+    
     const [newCourseNotification,setNewCourseNotification]=useState(false)
     const [studyReminder,setStudyReminder]=useState(false)
-
+    const {appTheme}=useSelector((state)=>state.theme)
+    const dispatch=useDispatch()
+    
+    //change theme
+    function toggleThemeHandler(){
+        if(appTheme?.name == "light"){
+            console.log("change to dark")
+            dispatch(toggleTheme(darkTheme))
+        }else{
+            console.log("change to light")
+            dispatch(toggleTheme(lightTheme))
+        }
+    }
+   
     function renderHeader(){
         return (
             <View
@@ -32,6 +49,7 @@ const Profile = () => {
                 {/* heading */}
                 <Text
                     style={{
+                        color:appTheme?.textColor,
                         ...FONTS.h1
                     }}
                 >
@@ -41,8 +59,9 @@ const Profile = () => {
                 <IconButton
                     icon={icons.sun}
                     iconStyle={{
-                        tintColor:COLORS.black
+                        tintColor:appTheme?.tintColor
                     }}
+                    onPress={()=>toggleThemeHandler()}
                 />
 
             </View>
@@ -59,7 +78,7 @@ const Profile = () => {
                     paddingHorizontal:SIZES.radius,
                     paddingVertical:20,
                     borderRadius:SIZES.radius,
-                    backgroundColor:COLORS.primary3
+                    backgroundColor:appTheme?.backgroundColor2
                 }}
             >
                 {/* profile img */}
@@ -173,10 +192,10 @@ const Profile = () => {
                             marginTop:SIZES.padding,
                             paddingHorizontal:SIZES.radius,
                             borderRadius:20,
-                            backgroundColor:COLORS.white
+                            backgroundColor:appTheme?.backgroundColor4
                         }}
                         labelStyle={{
-                            color:COLORS.primary
+                            color:appTheme?.textColor2
                     }}
                     />
               </View>
@@ -262,7 +281,7 @@ const Profile = () => {
         <View
             style={{
                 flex:1,
-                backgroundColor:COLORS.white
+                backgroundColor:appTheme?.backgroundColor1
             }}
         >
             {/* header */}

@@ -8,6 +8,7 @@ import { Shadow } from 'react-native-shadow-2';
 import {Home,Profile,Search} from "../../screens"
 import {COLORS,SIZES,FONTS,constants} from "../../constants"
 import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const bottom_tabs=constants.bottom_tabs.map((bottom_tab)=>({
     ...bottom_tab,ref:createRef()
@@ -123,6 +124,7 @@ const Tabs=(({scrollX,onBottomTabPress})=>{
 
 
 const MainLayout = () => {
+    const {appTheme}=useSelector((state)=>state.theme)
     const flatListRef=useRef()
     const scrollX=useRef(new Animated.Value(0)).current
 
@@ -187,9 +189,11 @@ const MainLayout = () => {
         return (
             <View
                 style={{
-                    marginBottom:20,
+                    paddingBottom:SIZES.height>800?20:5,
                     paddingHorizontal:SIZES.padding,
                     paddingVertical:SIZES.radius,
+                    backgroundColor:appTheme?.backgroundColor1,
+                    
                   
                 }}
             >
@@ -200,7 +204,7 @@ const MainLayout = () => {
                 }}    
                 >
                     <View
-                        style={{ flex:1,borderRadius:SIZES.radius,backgroundColor:COLORS.primary3}}
+                        style={{ flex:1,borderRadius:SIZES.radius,backgroundColor:appTheme?.backgroundColor2}}
                         >
                         <Tabs 
                             scrollX={scrollX}
