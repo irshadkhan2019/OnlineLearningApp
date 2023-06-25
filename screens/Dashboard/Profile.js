@@ -28,10 +28,10 @@ const Profile = () => {
     //change theme
     function toggleThemeHandler(){
         if(appTheme?.name == "light"){
-            console.log("change to dark")
+           
             dispatch(toggleTheme(darkTheme))
         }else{
-            console.log("change to light")
+           
             dispatch(toggleTheme(lightTheme))
         }
     }
@@ -212,6 +212,7 @@ const Profile = () => {
                     icon={icons.profile}
                     label={"Name"}
                     value={"Izuku Midoria"}
+                    
                 />
 
                 <LineDivider/>

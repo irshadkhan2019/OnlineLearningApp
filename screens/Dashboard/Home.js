@@ -9,10 +9,10 @@ import {
 
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-
 import { CategoryCard, HorizontalCourseCard, IconButton, LineDivider, TextButton,VerticalCourseCard } from '../../components';
 import {COLORS,SIZES,FONTS,constants,icons,images,dummyData} from "../../constants"
 import { color } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
 const Section=({containerStyle,title,onPress,children})=>{
     return (
@@ -55,6 +55,7 @@ const Section=({containerStyle,title,onPress,children})=>{
 }
 
 const Home = () => {
+    const navigation=useNavigation();
 
     function renderHeader(){
         return(
@@ -188,6 +189,7 @@ const Home = () => {
                                 marginLeft:index==0 ?SIZES.padding:SIZES.base,
                                 marginRight:index==dummyData.categories.length-1?SIZES.padding:0
                             }}
+                            onPress={()=>navigation.navigate("CourseListing")}
                         />
                         
                     )}

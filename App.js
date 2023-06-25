@@ -1,13 +1,35 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import {
-    MainLayout
+    MainLayout,
+    CourseListing
 } from "./screens";
 import { Provider } from 'react-redux';
 import { store } from './redux-toolkit/store';
+import { Easing } from 'react-native';
 
-const Stack = createNativeStackNavigator();
+const Stack = createSharedElementStackNavigator();
+const options={
+    gestureEnabled:false,
+    transitionSpec:{
+        open:{
+            animation:'timing',
+            config:{duration:400,easing:Easing.inOut(Easing.ease)}
+        },
+        close:{
+            animation:'timing',
+            config:{duration:400,easing:Easing.inOut(Easing.ease)}
+        }
+    },
+    cardStyleInterpolator:({current:{progress}})=>{
+        return {
+            cardStyle:{
+                opacity:progress
+            }
+        }
+    }
+
+}
 
 export default function App() {
   return (
@@ -15,14 +37,23 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
-                    headerShown: false
+                    headerShown: false,
+                    useNativeDriver:true,
                 }}
+                
                 initialRouteName={'Dashboard'}
+                detachInactiveScreens={false}
             >
                 <Stack.Screen
                     name="Dashboard"
                     component={MainLayout}
                 />
+                <Stack.Screen
+                    name="CourseListing"
+                    component={CourseListing}
+                    options={()=>options}
+                />
+
             </Stack.Navigator>
         </NavigationContainer>
     </Provider>    

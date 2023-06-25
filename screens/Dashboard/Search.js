@@ -10,9 +10,12 @@ import { Shadow } from 'react-native-shadow-2';
 import {TextButton,CategoryCard} from "../../components"
 import { COLORS,FONTS,SIZES,icons,dummyData } from '../../constants';
 import Animated, { Extrapolate ,interpolate,useAnimatedScrollHandler,useAnimatedStyle,useSharedValue} from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Search = () => {
+    const navigation=useNavigation()
+
     const scrollViewRef=useRef()
 
     const scrollY=useSharedValue(0)
@@ -107,6 +110,7 @@ const Search = () => {
                                 marginLeft:(index)%2==0?SIZES.padding:SIZES.radius
                                 
                             }}
+                            onPress={()=>navigation.navigate("CourseListing")}
                         />
                     )}
                 >
