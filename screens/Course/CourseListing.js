@@ -10,6 +10,7 @@ import { SharedElement } from 'react-navigation-shared-element'
 const CourseListing = ({route,navigation}) => {
 
   const {sharedElementPrefix,category}=route.params;
+  const headerSharedValue =useSharedValue(80)
  
   //handler
   function backHandler(){
@@ -18,6 +19,29 @@ const CourseListing = ({route,navigation}) => {
 
   //render
   function renderHeader(){
+    headerSharedValue.value=withDelay(500,
+        withTiming(0,{
+          duration:500
+        })
+      )
+    
+      const headerFadeAnimatedStyle=useAnimatedStyle(()=>{
+        return {
+          opacity:interpolate(headerSharedValue.value,[80,0],[0,1]),
+                  
+        }
+      })
+      const headerTranslateAnimatedStyle=useAnimatedStyle(()=>{
+        return {
+          transform:[
+            {
+              translateY:headerSharedValue.value
+            }
+          ]
+        }
+      })
+
+
     return(
     <Animated.View
       style={{
@@ -70,7 +94,9 @@ const CourseListing = ({route,navigation}) => {
         </Animated.View>
 
         {/* back btn */}
-        <Animated.View>
+        <Animated.View
+          style={headerFadeAnimatedStyle}
+        >
               <IconButton 
                 icon={icons.back}
                 iconStyle={{
@@ -93,18 +119,22 @@ const CourseListing = ({route,navigation}) => {
               />
 
         </Animated.View>
+
         {/* category Image */}
         <Animated.Image
           source={images.mobile_image}
           resizeMode={"contain"}
-          style={{
+          style={[
+            {
             position:"absolute",
             right:40,
             bottom:-40,
             width:100,
             height:200
-
-          }}
+          },
+          headerFadeAnimatedStyle,
+          headerTranslateAnimatedStyle
+        ]}
         />
     </Animated.View>
   )}
