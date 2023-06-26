@@ -18,7 +18,7 @@ const CourseListing = ({route,navigation}) => {
   const scrollY=useSharedValue(0)
 
   const onScroll=useAnimatedScrollHandler((event)=>{
-    // console.log(event.contentOffset.y)
+    console.log(event.contentOffset.y)
     scrollY.value=event.contentOffset.y;
   })
  
@@ -186,7 +186,30 @@ const CourseListing = ({route,navigation}) => {
                   alignItems:"center"
                 }}
                 onPress={()=>{
-                  backHandler()
+                  // scroll flatlist if btwn this range
+                  if(scrollY.value >0 && scrollY.value<=200){
+                    flatListRef.current?.scrollToOffset({
+                      offset:0,
+                      animated:true
+                    })
+
+                    //reverse animation when press back btn
+                    setTimeout(()=>{
+                      headerSharedValue.value=withTiming(80,{
+                        duration:500
+                      },()=>{
+                        // since at this time we were running on uI thread ,mention it ro run on js thread
+
+                        runOnJS(backHandler)();
+                      })
+                    },100)
+
+                  }else{
+                    
+                    backHandler()
+                  }
+
+               
                 }}
               />
 
