@@ -102,6 +102,7 @@ const Search = () => {
                     }}
                     renderItem={({item,index})=>( 
                         <CategoryCard 
+                            sharedElementPrefix={"Search"}
                             category={item}
                             containerStyle={{
                                 height:130,
@@ -110,7 +111,11 @@ const Search = () => {
                                 marginLeft:(index)%2==0?SIZES.padding:SIZES.radius
                                 
                             }}
-                            onPress={()=>navigation.navigate("CourseListing")}
+                            onPress={()=>navigation.navigate("CourseListing",{
+                                category:item,
+                                sharedElementPrefix:"Search"
+
+                            })}
                         />
                     )}
                 >
