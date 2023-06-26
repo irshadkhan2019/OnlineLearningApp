@@ -1,23 +1,32 @@
 import { View, Text ,Image,FlatList,StyleSheet} from 'react-native'
-import React from 'react'
+import React, { useRef } from 'react'
 import Animated ,
 { Extrapolate,interpolate ,useAnimatedScrollHandler,useAnimatedStyle,useSharedValue,withDelay,withTiming,runOnJS} from 'react-native-reanimated'
 import { IconButton ,HorizontalCourseCard,LineDivider} from '../../components'
 import { COLORS,FONTS,SIZES,icons,images,dummyData } from '../../constants'
 import { SharedElement } from 'react-navigation-shared-element'
 
+const AnimatedFlatList=Animated.createAnimatedComponent(FlatList)
 
 const CourseListing = ({route,navigation}) => {
 
   const {sharedElementPrefix,category}=route.params;
   const headerSharedValue =useSharedValue(80)
+
+  const flatListRef=useRef()
+  const scrollY=useSharedValue(0)
+
+  const onScroll=useAnimatedScrollHandler((event)=>{
+    scrollY.value=event.contentOffset.y;
+  })
  
   //handler
   function backHandler(){
     navigation.goBack()
   }
 
-  //render
+  //render 
+  //header
   function renderHeader(){
     headerSharedValue.value=withDelay(500,
         withTiming(0,{
@@ -139,6 +148,82 @@ const CourseListing = ({route,navigation}) => {
     </Animated.View>
   )}
 
+  //result
+  function renderResults(){
+    return (
+      <AnimatedFlatList 
+        ref={flatListRef}
+        data={dummyData?.courses_list_2}
+        keyExtractor={item=>`Results-${item.id}`}
+        contentContainerStyle={{
+          paddingHorizontal:SIZES.padding
+        }}
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={16}
+        keyboardDismissMode={"on-drag"}
+        onScroll={onScroll}
+        ListHeaderComponent={
+          <View
+            style={{
+              flexDirection:"row",
+              alignItems:"center",
+              marginTop:270,
+              marginBottom:SIZES.base
+            }}
+          >
+             {/* results */}
+              <Text
+                style={{
+                    flex:1,
+                    ...FONTS.body3
+                }}
+              >
+                3,533 Results
+              </Text>
+
+             {/* Filter btn */}
+             <IconButton 
+              icon={icons.filter}
+              iconStyle={{
+                width:20,
+                height:20
+              }}
+              containerStyle={{
+                width:40,
+                height:40,
+                alignItems:"center",
+                justifyContent:"center",
+                borderRadius:10,
+                backgroundColor:COLORS.primary
+
+              }}
+             />
+          </View>
+        }
+
+        renderItem={({item,index})=>(
+          <HorizontalCourseCard 
+            course={item}
+            containerStyle={{
+              marginVertical:SIZES.padding,
+              marginTop:index ==0 ?SIZES.radius:SIZES.padding,
+
+            }}
+          />
+        )} 
+        
+        ItemSeparatorComponent={()=>(
+          <LineDivider 
+            lineStyle={{backgroundColor:COLORS.gray20}}
+          />
+        )}
+      />
+  
+    )
+  }
+
+
+
   return (
     <View
         style={{
@@ -146,6 +231,9 @@ const CourseListing = ({route,navigation}) => {
             backgroundColor:COLORS.white
         }}
     >
+
+      {/* Results */}
+      {renderResults()}
       {/* Header */}
       {renderHeader()}
      
