@@ -2,7 +2,7 @@ import { View, Text ,Image,FlatList,StyleSheet} from 'react-native'
 import React, { useRef } from 'react'
 import Animated ,
 { Extrapolate,interpolate ,useAnimatedScrollHandler,useAnimatedStyle,useSharedValue,withDelay,withTiming,runOnJS} from 'react-native-reanimated'
-import { IconButton ,HorizontalCourseCard,LineDivider} from '../../components'
+import { IconButton ,HorizontalCourseCard,LineDivider, FilterModal} from '../../components'
 import { COLORS,FONTS,SIZES,icons,images,dummyData } from '../../constants'
 import { SharedElement } from 'react-navigation-shared-element'
 
@@ -16,6 +16,8 @@ const CourseListing = ({route,navigation}) => {
 
   const flatListRef=useRef()
   const scrollY=useSharedValue(0)
+  const filterModalSharedValue1=useSharedValue(SIZES.height)
+  const filterModalSharedValue2=useSharedValue(SIZES.height)
 
   const onScroll=useAnimatedScrollHandler((event)=>{
     console.log(event.contentOffset.y)
@@ -284,6 +286,15 @@ const CourseListing = ({route,navigation}) => {
                 backgroundColor:COLORS.primary
 
               }}
+              onPress={()=>{
+                filterModalSharedValue1.value=withTiming(0,{
+                  duration:1000
+                })
+                filterModalSharedValue2.value=withDelay(1500,withTiming(0,{
+                  duration:1000
+                }))
+
+              }}
              />
           </View>
         }
@@ -323,6 +334,11 @@ const CourseListing = ({route,navigation}) => {
       {renderResults()}
       {/* Header */}
       {renderHeader()}
+
+      {/* Filter Modal */}
+      {<FilterModal filterModalSharedValue1={filterModalSharedValue1}
+                    filterModalSharedValue2={filterModalSharedValue2}
+      />}
      
     </View>
   )

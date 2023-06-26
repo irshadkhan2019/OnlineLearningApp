@@ -1,4 +1,5 @@
 import CategoryCard from "./CategoryCard";
+import FilterModal from "./FilterModal";
 import HorizontalCourseCard from "./HorizontalCourseCard";
 import IconButton from "./IconButton";
 import IconLabel from "./IconLabel";
@@ -21,6 +22,7 @@ export {
     HorizontalCourseCard,
     ProgressBar,
     ProfileValue,
-    ProfileRadioButton
+    ProfileRadioButton,
+    FilterModal
     
 }
