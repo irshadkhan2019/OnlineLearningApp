@@ -43,12 +43,59 @@ const ClassTypeOption=({containerStyle,classType,isSelected,onPress})=>{
         </TouchableOpacity>
     )
 }
+const ClassLevelOption=({containerStyle,classLevel,isSelected,onPress,isLastItem})=>{
+    return (
+      <>
+        <TouchableOpacity
+            style={{
+                flexDirection:"row",
+                height:50,
+                alignItems:"center",
+                ...containerStyle
+
+            }}
+            onPress={onPress}
+        >
+            <Text
+                style={{
+                    flex:1,
+                    ...FONTS.body3
+
+                }}
+            >
+                {classLevel.label}
+            </Text>
+
+            {/* checkbox */}
+
+            <Image 
+                source={isSelected?icons.checkbox_on:icons.checkbox_off} 
+                resizeMode='contain'
+                style={{
+                    width:20,
+                    height:20
+                }}  
+            />
+        </TouchableOpacity>
+
+        {/* line divider */}
+        {!isLastItem && 
+        <LineDivider lineStyle={{
+                height:1,
+            }}
+        />}
+        
+      </> 
+    )
+}
+
+
 
 
 const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
     // console.log(filterModalSharedValue1)
     const [selectedClassType,setSelectedClassType]=useState('')
-    const [selectedClassLevel,SelectedClassLevel]=useState('')
+    const [selectedClassLevel,setSelectedClassLevel]=useState('')
     const [selectedCreatedWithin,setSelectedCreatedWithin]=useState('')
 
     // Animations
@@ -180,7 +227,7 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                 {/* Class type */}
                 <View
                     style={{
-                        marginTop:SIZES.radius
+                        marginTop:SIZES.padding
                     }}
                 >
                     <Text
@@ -209,6 +256,41 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                                     onPress={()=>{
                                         setSelectedClassType(item.id)
                                     }}
+                                />
+                            )
+                        })}
+                    </View> 
+
+                </View>
+
+                {/* Class Level  */}
+                <View
+                    style={{
+                        marginTop:SIZES.padding
+                    }}
+                >
+                    <Text
+                        style={{
+                          ...FONTS.h3 
+                        }}
+                    >
+                        Class Level
+                    </Text>
+
+                    <View 
+                        style={{
+                            marginTop:SIZES.radius
+                        }}
+                    >
+
+                         {constants.class_levels?.map((item,index)=>{
+                            return(
+                                <ClassLevelOption 
+                                    key={`ClassLevel-${index}`}
+                                    classLevel={item}
+                                    isLastItem={index==constants.class_levels.length-1}
+                                    isSelected={selectedClassLevel==item?.id}
+                                    onPress={()=>setSelectedClassLevel(item?.id)}
                                 />
                             )
                         })}
