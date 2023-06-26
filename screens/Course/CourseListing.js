@@ -7,6 +7,7 @@ import { COLORS,FONTS,SIZES,icons,images,dummyData } from '../../constants'
 import { SharedElement } from 'react-navigation-shared-element'
 
 const AnimatedFlatList=Animated.createAnimatedComponent(FlatList)
+const HEADER_HEIGHT=250
 
 const CourseListing = ({route,navigation}) => {
 
@@ -17,6 +18,7 @@ const CourseListing = ({route,navigation}) => {
   const scrollY=useSharedValue(0)
 
   const onScroll=useAnimatedScrollHandler((event)=>{
+    // console.log(event.contentOffset.y)
     scrollY.value=event.contentOffset.y;
   })
  
@@ -28,6 +30,8 @@ const CourseListing = ({route,navigation}) => {
   //render 
   //header
   function renderHeader(){
+    const inputRange=[0,HEADER_HEIGHT-50]
+
     headerSharedValue.value=withDelay(500,
         withTiming(0,{
           duration:500
@@ -50,10 +54,40 @@ const CourseListing = ({route,navigation}) => {
         }
       })
 
+      //animate header height
+      const headerHeightAnimatedStyle=useAnimatedStyle(()=>{
+        return{
+          height:interpolate(scrollY.value,inputRange,[HEADER_HEIGHT,120],Extrapolate.CLAMP)
+        }
+      })
+
+      //hide text and img on scroll animation
+      const headerHideOnScrollAnimatedStyle=useAnimatedStyle(()=>{
+        return{
+          opacity:interpolate(scrollY.value,[0,80],[1,0],Extrapolate.CLAMP),
+          transform:[
+            {
+              translateY:interpolate(scrollY.value,inputRange,[0,200],Extrapolate.CLAMP)
+            }
+          ]
+        }
+      })
+
+      //display header title on scroll animation
+    const headerShowOnScrollAnimatedStyle=useAnimatedStyle(()=>{
+        return{
+          opacity:interpolate(scrollY.value,inputRange,[0,1],Extrapolate.CLAMP),
+          transform:[
+            {
+              translateY:interpolate(scrollY.value,inputRange,[50,130],Extrapolate.CLAMP)
+            }
+          ]
+        }
+      })
 
     return(
     <Animated.View
-      style={{
+      style={[{
         position:"absolute",
         top:0,
         left:0,
@@ -61,7 +95,10 @@ const CourseListing = ({route,navigation}) => {
         height:250,
         overflow:"hidden"
 
-      }}
+      },
+      headerHeightAnimatedStyle
+    ]
+    }
     >
      <SharedElement
         id={`${sharedElementPrefix}-CC-Bg-${category?.id}`}
@@ -78,13 +115,39 @@ const CourseListing = ({route,navigation}) => {
         />
 
       </SharedElement>
-        {/* Title */}
+
+
+        {/* Title added when scrolled */}
         <Animated.View
-          style={{
+          style={[{
+            position:"absolute",
+            top:-80,
+            left:0,
+            right:0
+          },
+          headerShowOnScrollAnimatedStyle
+        ]}
+        >
+          <Text
+            style={{
+              textAlign:"center",
+              color:COLORS.white,
+              ...FONTS.h1
+            }}
+          >
+            {category?.title}
+          </Text>
+        </Animated.View>
+
+        {/* Title  removed when scrolled*/}
+        <Animated.View
+          style={[{
             position:"absolute",
             bottom:70,
             left:30,
-          }}
+          },
+          headerHideOnScrollAnimatedStyle
+        ]}
         >
           <SharedElement
           id={`${sharedElementPrefix}-CC-Title-${category?.id}`}
@@ -142,7 +205,8 @@ const CourseListing = ({route,navigation}) => {
             height:200
           },
           headerFadeAnimatedStyle,
-          headerTranslateAnimatedStyle
+          headerTranslateAnimatedStyle,
+          headerHideOnScrollAnimatedStyle
         ]}
         />
     </Animated.View>
