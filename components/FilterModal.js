@@ -1,12 +1,55 @@
 import { View, Text,Image,TouchableOpacity,ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Animated ,{interpolate,useAnimatedStyle,withDelay,withTiming}
 from 'react-native-reanimated'
 import {LineDivider,TextButton} from "../components"
 import { COLORS,FONTS,SIZES,icons,constants } from '../constants'
 
+const ClassTypeOption=({containerStyle,classType,isSelected,onPress})=>{
+    return (
+        <TouchableOpacity
+            style={{
+                flex:1,
+                height:100,
+                alignItems:"center",
+                justifyContent:"center",
+                borderRadius:SIZES.radius,
+                paddingHorizontal:SIZES.radius,
+                backgroundColor:isSelected?COLORS.primary3:COLORS.additionalColor9,
+                ...containerStyle
+            }}
+            onPress={onPress}
+        >
+            <Image 
+                source={classType?.icon}
+                resizeMode='contain'
+                style={{
+                   width:40,
+                   height:40,
+                   tintColor:isSelected?COLORS.white:COLORS.gray80 
+                }}
+            />
+
+            <Text
+                style={{
+                    marginTop:SIZES.base,
+                    color:isSelected?COLORS.white:COLORS.gray80,
+                    ...FONTS.h3,
+                }}
+            >
+                {classType?.label}
+            </Text>
+
+        </TouchableOpacity>
+    )
+}
+
+
 const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
     // console.log(filterModalSharedValue1)
+    const [selectedClassType,setSelectedClassType]=useState('')
+    const [selectedClassLevel,SelectedClassLevel]=useState('')
+    const [selectedCreatedWithin,setSelectedCreatedWithin]=useState('')
 
     // Animations
     const filterModalContainerAnimatedStyle=useAnimatedStyle(()=>{
@@ -117,8 +160,7 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                         filterModalSharedValue2.value=withTiming(SIZES.height,{
                             duration:1000
                           })
-                        
-                    
+                               
                         filterModalSharedValue1.value=withDelay(1500,withTiming(SIZES.height,{
                             duration:1000
                           }))
@@ -126,6 +168,55 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                 />
 
             </View>
+
+            {/* Content */}
+            <ScrollView 
+                contentContainerStyle={{
+                    paddingHorizontal:SIZES.padding,
+                    paddingBottom:50,
+                    // backgroundColor:COLORS.primary3
+                }}  
+            >
+                {/* Class type */}
+                <View
+                    style={{
+                        marginTop:SIZES.radius
+                    }}
+                >
+                    <Text
+                        style={{
+                          ...FONTS.h3 
+                        }}
+                    >
+                        Class Type
+                    </Text>
+
+                    <View 
+                        style={{
+                            flexDirection:"row",
+                            marginTop:SIZES.radius
+                        }}
+                    >
+                        {constants.class_types?.map((item,index)=>{
+                            return(
+                                <ClassTypeOption 
+                                    key={`ClassType-${index}`}
+                                    classType={item}
+                                    isSelected={selectedClassType==item?.id}
+                                    containerStyle={{
+                                        marginLeft:index==0?0:SIZES.base
+                                    }}
+                                    onPress={()=>{
+                                        setSelectedClassType(item.id)
+                                    }}
+                                />
+                            )
+                        })}
+                    </View> 
+
+                </View>
+
+            </ScrollView>    
 
 
 
