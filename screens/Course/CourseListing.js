@@ -288,10 +288,10 @@ const CourseListing = ({route,navigation}) => {
               }}
               onPress={()=>{
                 filterModalSharedValue1.value=withTiming(0,{
-                  duration:1000
+                  duration:500
                 })
-                filterModalSharedValue2.value=withDelay(1500,withTiming(0,{
-                  duration:1000
+                filterModalSharedValue2.value=withDelay(100,withTiming(0,{
+                  duration:500
                 }))
 
               }}

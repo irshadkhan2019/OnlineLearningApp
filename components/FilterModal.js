@@ -126,6 +126,51 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
         }
     })
 
+    function renderFooter(){
+        return(
+            <View
+                style={{
+                    flexDirection:"row",
+                    height:50,
+                    marginBottom:30,
+                    paddingHorizontal:SIZES.padding
+                }}
+            >
+                {/*Reset btn  */}
+                <TextButton 
+                    label={"Reset"}
+                    contentContainerStyle={{
+                        flex:1,
+                        borderWidth:1,
+                        borderRadius:SIZES.radius,
+                        backgroundColor:null
+                    }}
+                    labelStyle={{
+                        color:COLORS.black,
+                        ...FONTS.h3
+                    }}
+                />
+                
+                  {/*Apply btn  */}
+                  <TextButton 
+                    label={"Apply"}
+                    contentContainerStyle={{
+                        flex:1,
+                        marginLeft:SIZES.radius,
+                        borderWidth:2,
+                        borderRadius:SIZES.radius,
+                        borderColor:COLORS.primary,
+                        backgroundColor:COLORS.primary,
+                    }}
+                    labelStyle={{
+                        color:COLORS.white,
+                        ...FONTS.h3
+                    }}
+                />
+            </View>
+        )
+    }
+
     
   return (
     // Main container
@@ -135,7 +180,7 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
             bottom:0,
             height:SIZES.height,
             width:SIZES.width,
-            backgroundColor:COLORS.primary
+            // backgroundColor:COLORS.primary
         },
         filterModalContainerAnimatedStyle
     ]}
@@ -205,11 +250,11 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                     }}
                     onPress={()=>{
                         filterModalSharedValue2.value=withTiming(SIZES.height,{
-                            duration:1000
+                            duration:500
                           })
                                
-                        filterModalSharedValue1.value=withDelay(1500,withTiming(SIZES.height,{
-                            duration:1000
+                        filterModalSharedValue1.value=withDelay(500,withTiming(SIZES.height,{
+                            duration:100
                           }))
                     }}
                 />
@@ -379,8 +424,11 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                     </View> 
 
                 </View>
-                
-            </ScrollView>    
+
+            </ScrollView>  
+
+        {/* Footer */}
+        {renderFooter()}      
 
 
 
