@@ -8,6 +8,7 @@ import ProfileRadioButton from "./ProfileRadioButton";
 import ProfileValue from "./ProfileValue";
 import ProgressBar from "./ProgressBar";
 import TextButton from "./TextButton";
+import TwoPointSlider from "./TwoPointSlider";
 import VerticalCourseCard from "./VerticalCourseCard";
 
 
@@ -23,6 +24,7 @@ export {
     ProgressBar,
     ProfileValue,
     ProfileRadioButton,
-    FilterModal
+    FilterModal,
+    TwoPointSlider
     
 }

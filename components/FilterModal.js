@@ -2,7 +2,7 @@ import { View, Text,Image,TouchableOpacity,ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import Animated ,{interpolate,useAnimatedStyle,withDelay,withTiming}
 from 'react-native-reanimated'
-import {LineDivider,TextButton} from "../components"
+import {LineDivider,TextButton, TwoPointSlider} from "../components"
 import { COLORS,FONTS,SIZES,icons,constants } from '../constants'
 
 const ClassTypeOption=({containerStyle,classType,isSelected,onPress})=>{
@@ -271,7 +271,7 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                 >
                     <Text
                         style={{
-                          ...FONTS.h3 
+                          ...FONTS.h3
                         }}
                     >
                         Class Level
@@ -297,7 +297,89 @@ const FilterModal = ({filterModalSharedValue1,filterModalSharedValue2}) => {
                     </View> 
 
                 </View>
+                
+                {/* Created Within */}
+                <View
+                    style={{
+                        marginTop:SIZES.padding
+                    }}
+                >
+                    <Text
+                        style={{
+                          ...FONTS.h3
+                        }}
+                    >
+                        Created Within 
+                    </Text>
 
+                    <View 
+                        style={{
+                            flex:1,
+                            flexDirection:'row',
+                            flexWrap:'wrap'
+                        }}
+                    >
+                        {constants?.created_within.map((item,index)=>{
+                            return (
+                                <TextButton 
+                                    key={`CreatedWithin-${index}`}
+                                    label={item?.label}
+                                    contentContainerStyle={{
+                                        height:45,
+                                        paddingHorizontal:SIZES.radius,
+                                        marginLeft:index%3==0?0:SIZES.radius,
+                                        marginTop:SIZES.radius,
+                                        borderWidth:1,
+                                        borderRadius:SIZES.radius,
+                                        borderColor:COLORS.gray20,
+                                        backgroundColor:item?.id==selectedCreatedWithin?COLORS.primary3:null
+
+                                    }}
+                                    labelStyle={{
+                                        color:item?.id==selectedCreatedWithin?COLORS.white:COLORS.black,
+                                        ...FONTS.body3
+                                    }}
+                                    onPress={()=>setSelectedCreatedWithin(item?.id)}
+                                />
+                            )
+                        })}
+                      
+                    </View> 
+
+                </View>
+
+                {/* class Length */}
+                <View
+                    style={{
+                        marginTop:SIZES.padding
+                    }}
+                >
+                    <Text
+                        style={{
+                          ...FONTS.h3
+                        }}
+                    >
+                        Class Length 
+                    </Text>
+
+                    <View 
+                        style={{
+                            alignItems:"center"
+                         
+                        }}
+                    >
+                        <TwoPointSlider 
+                            values={[20,50]}
+                            min={15}
+                            max={60}
+                            postfix={" min"}
+                            onValuesChange={(values)=>console.log(values)}
+                        />
+                    
+                    </View> 
+
+                </View>
+                
             </ScrollView>    
 
 
