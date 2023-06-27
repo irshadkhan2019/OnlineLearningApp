@@ -305,8 +305,11 @@ const CourseListing = ({route,navigation}) => {
             containerStyle={{
               marginVertical:SIZES.padding,
               marginTop:index ==0 ?SIZES.radius:SIZES.padding,
-
+ 
             }}
+            onPress={()=>navigation.navigate("CourseDetails",{
+              selectedCourse:item
+            })}
           />
         )} 
         
@@ -345,16 +348,19 @@ const CourseListing = ({route,navigation}) => {
 }
 
 CourseListing.sharedElements=(route,otherRoute,showing)=>{
-  const {category,sharedElementPrefix}=route.params;
-
-  return[
-    {
-      id:`${sharedElementPrefix}-CC-Bg-${category?.id}`  
-    },
-    {
-      id:`${sharedElementPrefix}-CC-Title-${category?.id}`
-    }
-  ] 
+  //inject/trigger shared element action if its coming from dashboard
+  if(otherRoute.name === "Dashboard"){
+    const {category,sharedElementPrefix}=route.params;
+    return[
+      {
+        id:`${sharedElementPrefix}-CC-Bg-${category?.id}`  
+      },
+      {
+        id:`${sharedElementPrefix}-CC-Title-${category?.id}`
+      }
+    ] 
+  }
+ 
 }
 
 export default CourseListing

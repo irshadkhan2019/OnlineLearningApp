@@ -4,13 +4,14 @@ import {IconLabel} from '../components'
 import { SIZES,COLORS,FONTS,icons } from '../constants'
 import { color } from 'react-native-reanimated'
 
-const HorizontalCourseCard = ({containerStyle,course}) => {
+const HorizontalCourseCard = ({containerStyle,course,onPress}) => {
   return (
     <TouchableOpacity
         style={{
             flexDirection:"row",
             ...containerStyle
         }}
+        onPress={onPress}
     >
       {/* Direct childrens of TO row wise */}
       {/* Thumbnail */}

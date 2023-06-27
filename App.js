@@ -2,7 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import {
     MainLayout,
-    CourseListing
+    CourseListing,
+    CourseDetails
 } from "./screens";
 import { Provider } from 'react-redux';
 import { store } from './redux-toolkit/store';
@@ -51,7 +52,12 @@ export default function App() {
                 <Stack.Screen
                     name="CourseListing"
                     component={CourseListing}
-                    options={()=>options}
+                    // for shared element feature optn prop
+                    options={()=>options} 
+                />
+                <Stack.Screen
+                    name="CourseDetails"
+                    component={CourseDetails}
                 />
 
             </Stack.Navigator>
