@@ -113,16 +113,6 @@ const courses_list_2 = [
         price: 75,
         is_favourite: false,
         thumbnail: require("../assets/images/thumbnail_4.png")
-    },
-    {
-        id: 5,
-        title: "The Ultimate Ui/Ux Course Beginner to Advanced",
-        duration: "2h 30m",
-        instructor: "James Morris",
-        ratings: 4.9,
-        price: 75,
-        is_favourite: false,
-        thumbnail: require("../assets/images/thumbnail_4.png")
     }
 ]
 
@@ -192,7 +182,18 @@ const course_details = {
             is_complete: false,
             is_lock: true,
             is_downloaded: false,
+        },
+        {
+            title: "4. User style",
+            duration: "1:37",
+            size: "10 MB",
+            progress: "100%",
+            is_playing: false,
+            is_complete: true,
+            is_lock: false,
+            is_downloaded: false,
         }
+        
     ],
     students: [
         {

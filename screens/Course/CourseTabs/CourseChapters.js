@@ -230,6 +230,70 @@ const CourseChapters = () => {
         </View>
     )
   }
+  
+  function renderPopularCourses(){
+    return (
+        <View
+            style={{
+               marginTop:SIZES.padding
+            }}
+        >
+            {/* Section Header */}
+            <View
+                style={{
+                    flexDirection:'row',
+                    paddingHorizontal:SIZES.padding
+                }}
+            >
+                <Text
+                  style={{
+                    flex:1,
+                    ...FONTS.h2
+                  }}
+                >Popular Courses
+                </Text>
+
+                <TextButton 
+                    contentContainerStyle={{
+                        width:80,
+                        borderRadius:30,
+                        backgroundColor:COLORS.primary
+                    }}
+                    label={"See All"}
+                />
+
+            </View>
+
+            {/*  Popular Courses List*/}
+            <FlatList 
+                data={dummyData?.courses_list_2}
+                key={`PopularCourses`}
+                scrollEnabled={false}
+                keyExtractor={item=>`PopularCourses-${item.id}`}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                    marginTop:SIZES.radius,
+                    paddingHorizontal:SIZES.padding
+                }}
+                renderItem={({item,index})=>(
+                    <HorizontalCourseCard  
+                        course={item}
+                        containerStyle={{
+                            marginVertical:SIZES.padding,
+                            marginTop:index==0?SIZES.radius:SIZES.padding
+                        }}
+                    />
+                    
+                )}
+                ItemSeparatorComponent={()=>(
+                    <LineDivider />
+                )}
+            />
+
+
+        </View>
+    )
+  }
 
   return (
     <ScrollView>
@@ -248,7 +312,8 @@ const CourseChapters = () => {
        {renderChapter()}
 
        {/* popular courses */}
-       
+       {renderPopularCourses()}
+
     </ScrollView>
   )
 }
