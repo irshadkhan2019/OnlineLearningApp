@@ -144,7 +144,7 @@ const Home = () => {
                 data={dummyData.courses_list_1}
                 key={`Courses`}
                 keyExtractor={item=>`Courses-${item.id}`}
-                // showsHorizontalScrollIndicator
+                showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     marginTop:SIZES.padding
                 }}
@@ -178,7 +178,7 @@ const Home = () => {
                     data={dummyData.categories}
                     key={"Categories"}
                     keyExtractor={item=>`Categories-${item.id}`}
-                    // showsHorizontalScrollIndicator
+                    showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{
                         marginTop:SIZES.radius
                     }}
