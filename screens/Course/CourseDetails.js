@@ -1,9 +1,8 @@
 import { View, Text,ImageBackground,TouchableOpacity,Animated,Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { IconButton,LineDivider } from '../../components'
-import { COLORS,FONTS,SIZES,icons,dummyData} from '../../constants'
-import Video from 'react-native-video'
-
+import { COLORS,FONTS,SIZES,icons,dummyData,constants} from '../../constants'
+import { Video } from 'expo-av';
 
 const CourseDetails = ({navigation,route}) => {
   const {selectedCourse}=route.params;
@@ -79,23 +78,43 @@ const CourseDetails = ({navigation,route}) => {
   }
 
   function renderHeader(){
-    return (
-      <View
-        style={{
-          position:"absolute",
-          top:SIZES.height>800?40:20,
-          left:0,
-          right:0,
-          flexDirection:"row",
-          paddingHorizontal:SIZES.padding,
-          zIndex:1,
-         
-        }}
-      >
-        {renderHeaderComponents()}
-
-      </View>
-    )
+    if(playVideo){
+      return (
+        <View
+          style={{
+            flexDirection:"row",
+            paddingHorizontal:SIZES.radius,
+            paddingBottom:SIZES.base,
+            height:85,
+            backgroundColor:COLORS.black,
+            alignItems:"flex-end"
+           
+          }}
+        >
+          {renderHeaderComponents()}
+  
+        </View>
+      )
+    }else{
+      return (
+        <View
+          style={{
+            position:"absolute",
+            top:SIZES.height>800?40:20,
+            left:0,
+            right:0,
+            flexDirection:"row",
+            paddingHorizontal:SIZES.padding,
+            zIndex:1,
+           
+          }}
+        >
+          {renderHeaderComponents()}
+  
+        </View>
+      )
+    }
+  
   }
 
   function renderVideoSection(){
@@ -142,20 +161,24 @@ const CourseDetails = ({navigation,route}) => {
         </ImageBackground>
 
         {playVideo  && 
-          <Video 
-            source={{uri:'https://youtu.be/B_IwnchHC2g'}}
-            controls={true}
-            onError={this.videoError}
-            style={{
-              position:"absolute",
-              top:0,
-              left:0,
-              bottom:0,
-              right:0,
-              backgroundColor:COLORS.black
-
+           <Video
+            source={{
+              uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
             }}
-          />
+           useNativeControls
+           isLooping
+           style={{
+            position:"absolute",
+            top:0,
+            left:0,
+            bottom:0,
+            right:0,
+            backgroundColor:COLORS.black
+
+          }}
+      
+         />
+       
         
         }
 
