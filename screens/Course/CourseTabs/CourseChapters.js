@@ -118,6 +118,118 @@ const CourseChapters = () => {
         </View>
     )
   }  
+  
+  function renderChapter(){
+    return (
+        <View>
+             {dummyData?.course_details?.videos?.map((item,index)=>{
+                return (
+                    <View
+                        key={`Videos-${index}`}
+                        style={{
+                            alignItems:"center",
+                            height:70,
+                            backgroundColor:item?.is_playing?COLORS.additionalColor11:null
+                        }}
+                    >
+                       <View
+                        style={{
+                            
+                            flexDirection:'row',
+                            paddingHorizontal:SIZES.padding,
+                            alignItems:'center',
+                            height:70
+                            
+                        }}
+                       >
+                         {/* icon */}
+                         <Image 
+                            source={item?.is_complete?icons.completed:item?.is_playing?icons.play_1:icons.lock}
+                            style={{
+                                width:40,
+                                height:40
+                            }}
+                         />
+                         {/* title and duration  */}
+                         <View
+                            style={{
+                                flex:1,
+                                marginLeft:SIZES.radius
+                            }}
+                         >
+                            <Text
+                                style={{
+                                    ...FONTS.h3
+                                }}
+                            >
+                                {item?.title}
+                            </Text>
+                            <Text
+                                style={{
+                                    color:COLORS.gray30,
+                                    ...FONTS.body4
+                                }}
+                            >
+                                {item?.duration}
+                            </Text>
+
+                         </View>
+
+                         {/* {size and status} */}
+                           <View
+                            style={{
+                               flexDirection:"row" 
+                            }}
+                           >
+                              {/* Size  */}
+                              <Text
+                              style={{
+                                color:COLORS.gray30,
+                                ...FONTS.body4
+                              }}>
+                                {item?.size}
+                              </Text>
+
+                              {/* Status */}
+                              <Image
+                                source={item?.is_downloaded?icons.completed:icons.download}
+                                style={{
+                                  marginLeft:SIZES.base,
+                                  width:25,
+                                  height:25,
+                                  tintColor:item?.is_lock?COLORS.additionalColor4:null
+                                }}
+                              />
+                           </View>
+                            
+                       </View>
+
+                       {/* progress Bar */}
+                       {item?.is_playing &&
+                        <View
+                            style={{
+                                position:'absolute',
+                                bottom:0,
+                                left:0,
+                                height:5,
+                                width:item?.progress,
+                                backgroundColor:COLORS.primary
+
+
+                            }}
+                        >
+
+                        </View>
+                       }
+
+
+                    </View>
+                )
+             })} 
+
+        </View>
+    )
+  }
 
   return (
     <ScrollView>
@@ -133,8 +245,10 @@ const CourseChapters = () => {
        />
 
        {/* chapters */}
+       {renderChapter()}
 
        {/* popular courses */}
+       
     </ScrollView>
   )
 }
