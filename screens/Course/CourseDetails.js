@@ -1,5 +1,5 @@
 import { View, Text,ImageBackground,TouchableOpacity,Animated,Keyboard } from 'react-native'
-import React, { createRef, useEffect, useRef, useState } from 'react'
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
 import { IconButton,LineDivider } from '../../components'
 import { COLORS,FONTS,SIZES,icons,dummyData,constants} from '../../constants'
 import { Video } from 'expo-av';
@@ -49,7 +49,7 @@ const TabIndicator=({measureLayout,scrollX})=>{
   )
 }
 
-const Tabs=({scrollX})=>{
+const Tabs=({scrollX,onTabPress})=>{
   const [measureLayout,setMeasureLayout]=useState([])
   const containerRef=useRef()
 
@@ -91,6 +91,7 @@ const Tabs=({scrollX})=>{
               alignItems:"center",
               justifyContent:"center"
             }}
+            onPress={()=>onTabPress(index)}
           >
             <Text
               style={{
@@ -121,6 +122,13 @@ const CourseDetails = ({navigation,route}) => {
   const [playVideo,setPlayVideo]=useState(false)
   const flatListRef=useRef()
   const scrollX=useRef(new Animated.Value(0)).current
+
+  //scroll flatlist when tab is pressed
+  const onTabPress=useCallback((tabIndex)=>{
+      flatListRef?.current.scrollToOffset({
+        offset:tabIndex*SIZES.width
+      })
+  })
 
   function renderHeaderComponents(){
      return(
@@ -314,6 +322,7 @@ const CourseDetails = ({navigation,route}) => {
         >
           <Tabs 
             scrollX={scrollX}
+            onTabPress={onTabPress}
           />
 
         </View>
