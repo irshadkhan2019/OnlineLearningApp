@@ -4,12 +4,50 @@ import { IconButton,LineDivider } from '../../components'
 import { COLORS,FONTS,SIZES,icons,dummyData,constants} from '../../constants'
 import { Video } from 'expo-av';
 
-const course_details_tabs=constants?.course_details_tabs.map((course)=>{
-  return{
-    ...course,
-    ref:createRef(),
+const course_details_tabs=constants?.course_details_tabs.map((course_details_tab)=>(
+  {
+    ...course_details_tab,
+    ref:createRef()
   }
-})
+))
+
+const TabIndicator=({measureLayout,scrollX})=>{
+  // console.log(measureLayout,scrollX)
+  const inputRange=course_details_tabs.map((_,i)=>i*SIZES.width)
+  const outputRange=measureLayout.map((measure)=>measure.width)
+  const outputRangeTranslateX=measureLayout.map((measure)=>measure.x)
+
+  // console.log(inputRange,outputRange,outputRangeTranslateX)
+
+  const tabIndicatorWidth=scrollX.interpolate({
+    inputRange,
+    outputRange
+  })
+  const translateX=scrollX.interpolate({
+    inputRange,
+    outputRange:outputRangeTranslateX
+    
+  })
+
+
+  return(
+    <Animated.View
+      style={{
+        position:"absolute",
+        bottom:0,
+        height:4,
+        width:tabIndicatorWidth,
+        borderRadius:SIZES.radius,
+        backgroundColor:COLORS.primary,
+        transform:[{
+          translateX
+        }]
+      }}
+    >
+
+    </Animated.View>
+  )
+}
 
 const Tabs=({scrollX})=>{
   const [measureLayout,setMeasureLayout]=useState([])
@@ -22,13 +60,13 @@ const Tabs=({scrollX})=>{
         containerRef.current,
         (x,y,width,height)=>{
           ml.push({x,y,width,height})
-        } 
+
+          if(ml.length === course_details_tabs.length){
+            setMeasureLayout(ml) 
+          }
+        }  
       )
-
-      if(ml.length === course_details_tabs.length){
-        setMeasureLayout(ml) 
-      }
-
+   
     })
   },[containerRef.current])
 
@@ -67,8 +105,11 @@ const Tabs=({scrollX})=>{
         )
       })}
 
-
       {/* Tab indicator */}
+      {measureLayout.length>0 && <TabIndicator 
+        measureLayout={measureLayout}
+        scrollX={scrollX}
+      />}
 
     </View>
   )
@@ -269,7 +310,6 @@ const CourseDetails = ({navigation,route}) => {
         <View
           style={{
             height:60,
-            backgroundColor:'red'
           }}
         >
           <Tabs 
@@ -313,7 +353,7 @@ const CourseDetails = ({navigation,route}) => {
                   width:SIZES.width
                 }}
               >
-                {console.log(item,index)}
+                
                 {index==0 && <Text>Chapters</Text>}
                 {index==1 && <Text>Files</Text>}
                 {index==2 && <Text>Discussions</Text>}
