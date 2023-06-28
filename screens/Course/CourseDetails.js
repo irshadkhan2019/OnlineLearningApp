@@ -1,11 +1,14 @@
 import { View, Text,ImageBackground,TouchableOpacity,Animated,Keyboard } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { IconButton,LineDivider } from '../../components'
-import { COLORS,FONTS,SIZES,icons,constants,dummyData} from '../../constants'
+import { COLORS,FONTS,SIZES,icons,dummyData} from '../../constants'
+import Video from 'react-native-video'
 
 
 const CourseDetails = ({navigation,route}) => {
   const {selectedCourse}=route.params;
+
+  const [playVideo,setPlayVideo]=useState(false)
 
   function renderHeaderComponents(){
      return(
@@ -133,9 +136,28 @@ const CourseDetails = ({navigation,route}) => {
               backgroundColor:COLORS.primary
 
             }}
+            onPress={()=>setPlayVideo(true)}
           />
 
         </ImageBackground>
+
+        {playVideo  && 
+          <Video 
+            source={{uri:'https://youtu.be/B_IwnchHC2g'}}
+            controls={true}
+            onError={this.videoError}
+            style={{
+              position:"absolute",
+              top:0,
+              left:0,
+              bottom:0,
+              right:0,
+              backgroundColor:COLORS.black
+
+            }}
+          />
+        
+        }
 
       </View>
     )

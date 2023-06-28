@@ -364,6 +364,8 @@ const notificationByDays = [
     },
 ]
 
+const sample_video_url=`https://youtu.be/B_IwnchHC2g`
+
 export default {
     categories,
     courses_list_1,
@@ -371,4 +373,5 @@ export default {
     top_searches,
     course_details,
     notificationByDays,
+    sample_video_url
 }
