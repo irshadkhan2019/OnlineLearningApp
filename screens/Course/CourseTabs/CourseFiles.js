@@ -68,6 +68,73 @@ function renderStudents(){
     )
 }
 
+function renderFiles(){
+    return(
+        <View
+            style={{
+                marginTop:SIZES.padding
+            }}
+        >
+            {/* Section Title */}
+            <Text style={{...FONTS.h2,fontSize:25}}>Files</Text>
+
+            {/* Files */}
+            {dummyData?.course_details?.files.map((item,index)=>{
+                return (
+                    <View 
+                        key={`Files-${index}`}
+                        style={{
+                            flexDirection:"row",
+                            marginTop:SIZES.radius,
+                        
+                        }}
+                    >
+                        {/* thumbnai */}
+                        <Image 
+                            source={item?.thumbnail}
+                            style={{
+                                width:80,
+                                height:80
+                            }}
+                        />
+
+                        {/* Name author date */}
+                        <View
+                            style={{
+                                flex:1,
+                                marginLeft:SIZES.radius
+                            }}
+                        >
+                            <Text style={{...FONTS.h2}}>{item?.name}</Text>
+                            <Text style={{color:COLORS.gray30,...FONTS.body3}}>{item?.author}</Text>
+                            <Text style={{...FONTS.body4}}>{item?.upload_date}</Text>
+
+
+                        </View>
+
+                        {/* menu btn */}
+                        <IconButton 
+                            icon={icons.menu}
+                            iconStyle={{
+                                width:25,
+                                height:25,
+                                tintColor:COLORS.black,
+
+                            }}
+                            containerStyle={{
+                                alignItems:"center",
+                                justifyContent:"center",
+                                borderRadius:25
+                            }}
+                        />
+        
+                    </View>
+                )
+            })}
+        </View>
+    )
+}
+
 const CourseFiles = () => {
   return (
     <ScrollView
@@ -79,6 +146,7 @@ const CourseFiles = () => {
       {renderStudents()}
 
       {/* Files */}
+      {renderFiles()}
     </ScrollView>
   )
 }
