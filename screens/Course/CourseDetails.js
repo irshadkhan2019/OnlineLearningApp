@@ -1,13 +1,85 @@
 import { View, Text,ImageBackground,TouchableOpacity,Animated,Keyboard } from 'react-native'
-import React, { useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import { IconButton,LineDivider } from '../../components'
 import { COLORS,FONTS,SIZES,icons,dummyData,constants} from '../../constants'
 import { Video } from 'expo-av';
+
+const course_details_tabs=constants?.course_details_tabs.map((course)=>{
+  return{
+    ...course,
+    ref:createRef(),
+  }
+})
+
+const Tabs=({scrollX})=>{
+  const [measureLayout,setMeasureLayout]=useState([])
+  const containerRef=useRef()
+
+  useEffect(()=>{
+    let ml=[];
+    course_details_tabs.forEach((course_details_tab)=>{
+      course_details_tab?.ref?.current?.measureLayout(
+        containerRef.current,
+        (x,y,width,height)=>{
+          ml.push({x,y,width,height})
+        } 
+      )
+
+      if(ml.length === course_details_tabs.length){
+        setMeasureLayout(ml) 
+      }
+
+    })
+  },[containerRef.current])
+
+  return (
+    <View
+      ref={containerRef}
+      style={{
+        flex:1,
+        flexDirection:"row"
+      }}
+    >
+
+      {/* Tabs */}
+      {course_details_tabs.map((item,index)=>{
+        return (
+          <TouchableOpacity
+            key={`Tab-${index}`}
+            ref={item.ref}
+            style={{
+              flex:1,
+              paddingHorizontal:15,
+              alignItems:"center",
+              justifyContent:"center"
+            }}
+          >
+            <Text
+              style={{
+                ...FONTS.h3,
+                fontSize:SIZES.height >800 ?18:17
+              }}
+            >
+              {item.label}
+            </Text>
+
+          </TouchableOpacity>
+        )
+      })}
+
+
+      {/* Tab indicator */}
+
+    </View>
+  )
+}
 
 const CourseDetails = ({navigation,route}) => {
   const {selectedCourse}=route.params;
 
   const [playVideo,setPlayVideo]=useState(false)
+  const flatListRef=useRef()
+  const scrollX=useRef(new Animated.Value(0)).current
 
   function renderHeaderComponents(){
      return(
@@ -186,6 +258,74 @@ const CourseDetails = ({navigation,route}) => {
     )
   }
 
+  function renderContent(){
+    return (
+      <View
+        style={{
+          flex:1 
+        }}
+      >
+        {/* Tabs */}
+        <View
+          style={{
+            height:60,
+            backgroundColor:'red'
+          }}
+        >
+          <Tabs 
+            scrollX={scrollX}
+          />
+
+        </View>
+
+        {/* Line Divider */}
+        <LineDivider
+          lineStyle={{
+            backgroundColor:COLORS.gray20
+          }}
+        />
+
+        {/* content */}
+        {/* Chapters,discussion,Files horizontal */}
+        <Animated.FlatList
+          ref={flatListRef}
+          horizontal
+          pagingEnabled
+          snapToAlignment={"center"}
+          snapToInterval={SIZES.width}
+          decelerationRate={"fast"}
+          keyboardDismissMode={"on-drag"}
+          showsHorizontalScrollIndicator={false}
+          data={constants?.course_details_tabs}
+          keyExtractor={item=>`CourseDetailsTabs-${item.id}`}
+          onScroll={
+            Animated.event([
+              {nativeEvent:{contentOffset:{x:scrollX }}}
+            ],{
+              useNativeDriver:false
+            })
+          }
+
+          renderItem={({item,index})=>{
+            return (
+              <View
+                style={{
+                  width:SIZES.width
+                }}
+              >
+                {console.log(item,index)}
+                {index==0 && <Text>Chapters</Text>}
+                {index==1 && <Text>Files</Text>}
+                {index==2 && <Text>Discussions</Text>}
+              </View>
+            )
+          }}
+        />
+
+      </View>
+    )
+  }
+
   return (
     <View
       style={{
@@ -198,6 +338,9 @@ const CourseDetails = ({navigation,route}) => {
 
       {/* Video */}
       {renderVideoSection()}
+
+      {/* content */}
+      {renderContent()}
      
     </View>
   )
