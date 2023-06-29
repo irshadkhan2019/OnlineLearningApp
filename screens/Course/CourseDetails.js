@@ -5,6 +5,7 @@ import { COLORS,FONTS,SIZES,icons,dummyData,constants} from '../../constants'
 import { Video } from 'expo-av';
 import CourseChapters from './CourseTabs/CourseChapters';
 import CourseFiles from './CourseTabs/CourseFiles';
+import CourseDiscussions from './CourseTabs/CourseDiscussions';
 
 const course_details_tabs=constants?.course_details_tabs.map((course_details_tab)=>(
   {
@@ -367,7 +368,7 @@ const CourseDetails = ({navigation,route}) => {
                 
                 {index==0 && <CourseChapters/>}
                 {index==1 && <CourseFiles />}
-                {index==2 && <Text>Discussions</Text>}
+                {index==2 && <CourseDiscussions/>}
               </View>
             )
           }}

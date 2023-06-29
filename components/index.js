@@ -3,6 +3,7 @@ import FilterModal from "./FilterModal";
 import HorizontalCourseCard from "./HorizontalCourseCard";
 import IconButton from "./IconButton";
 import IconLabel from "./IconLabel";
+import IconLabelButton from "./IconLabelButton";
 import LineDivider from "./LineDivider";
 import ProfileRadioButton from "./ProfileRadioButton";
 import ProfileValue from "./ProfileValue";
@@ -25,6 +26,7 @@ export {
     ProfileValue,
     ProfileRadioButton,
     FilterModal,
-    TwoPointSlider
+    TwoPointSlider,
+    IconLabelButton
     
 }
