@@ -94,7 +94,10 @@ const Tabs=({scrollX,onTabPress})=>{
               alignItems:"center",
               justifyContent:"center"
             }}
-            onPress={()=>onTabPress(index)}
+            onPress={()=>{
+              onTabPress(index)
+              Keyboard.dismiss()
+            }}
           >
             <Text
               style={{

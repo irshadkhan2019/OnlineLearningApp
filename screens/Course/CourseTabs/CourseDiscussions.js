@@ -1,5 +1,5 @@
 import { View, Text,TextInput,Keyboard,FlatList,Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton, IconLabelButton } from '../../../components'
 import { COLORS,FONTS,SIZES,icons,dummyData } from '../../../constants'
 
@@ -63,6 +63,25 @@ const CommentSection=({commentItem,commentOption,replies})=>{
 }
 
 const CourseDiscussions = () => {
+    
+      const [footerHeight,setFooterHeight]=useState(60)
+//    const [footerPosition,setFooterPosition]=useState(0)
+
+//    useEffect(()=>{
+//     //  listen to keyboard
+//     const showSubscription=Keyboard.addListener('keyboardDidShow',(event)=>{
+//         setFooterPosition(event.endCoordinates.height)
+//     })
+//     const hideSubscription=Keyboard.addListener('keyboardWillHide',(event)=>{
+//         setFooterPosition(0)
+//     })
+
+//     return ()=>{
+//         showSubscription.remove()
+//         hideSubscription.remove()
+//     }
+    
+//    },[footerPosition])
 
   function renderDiscussions(){
     return (
@@ -223,6 +242,70 @@ const CourseDiscussions = () => {
     )
   }  
 
+  function renderFooterTextInput(){
+    return (
+        <View
+            style={{
+                flexDirection:'row',
+                position:"absolute",
+                bottom:0,
+                left:0,
+                right:0,
+                height:footerHeight,
+                paddingHorizontal:SIZES.padding,
+                paddingVertical:SIZES.radius,
+                backgroundColor:COLORS.gray10
+
+            }}
+        >
+            <TextInput
+                style={{
+                    flex:1,
+                    marginRight:SIZES.base,
+                    ...FONTS.body3
+                }}
+                multiline
+                placeholder='Type Something'
+                placeholderTextColor={COLORS.gray80}
+                onContentSizeChange={(e)=>{
+                    const height=e.nativeEvent.contentSize.height;
+                    console.log(height)
+
+                    if(height<=60){
+                        setFooterHeight(60)
+                    }else if(height>60 && height <=100){
+                        setFooterHeight(height)
+                    }
+                    else if(height>100){
+                        setFooterHeight(100)
+                    }
+                }}
+                
+
+            />
+
+            {/* send icon */}
+            <IconButton 
+                icon={icons.send}
+                iconStyle={{
+                    height:25,
+                    width:25,
+                    tintColor:COLORS.primary
+                }}
+                containerStyle={{
+                    justifyContent:"center",
+                    alignItems:"center",
+                }}
+                onPress={()=>Keyboard.dismiss()}
+
+
+            />
+
+        </View>
+    )
+
+  }
+
   return (
     <View
         style={{
@@ -234,6 +317,7 @@ const CourseDiscussions = () => {
       {renderDiscussions()}
 
       {/* Footer input */}
+      {renderFooterTextInput()}
     </View>
   )
 }
